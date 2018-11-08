@@ -7,27 +7,30 @@ public class Program
 {
 	public static void Main()
 	{
+		// Operator (depends on whether the data is ordered by asc or desc)
 		string op = ">";
+
+		// In case of Npgsql we create parameters that match the paramList strings
 		List<string> paramList = new List<string>();
 		paramList.Add(":x");
 		paramList.Add(":y");
 		paramList.Add(":z");
-		//paramList.Add(":w");
 		
+		// fieldList contains all of the fields used in orderBy (and therefore also in where)
 		List<string> fieldList = new List<string>();
 		fieldList.Add("a");
 		fieldList.Add("b");
 		fieldList.Add("c");
-		//fieldList.Add("d");
-		
+
+		// When switching to next page with keyset paging, you need the last row of current page. 
+		// Previous page needs the first row of current page(?)
+		// blocks contains bits (true/false) to see if the value is real NULL or not. In this case
+		// "N" means null and "V" means value. 	
 		List<string> blocks = new List<string>();
 		blocks.Add("N");
 		blocks.Add("N");
 		blocks.Add("N");
-		//blocks.Add("V");
-		
-		//string where = BuildNullsFirstString(op, blocks, fieldList, paramList, 1);
-		
+
 		Console.WriteLine("DESC NULLS FIRST");
 		PrintSQL("NN", op, new List<string>{"N","N"}, new List<string>{"a","b"}, new List<string>{":x",":y"}, 1);
 		PrintSQL("NV", op, new List<string>{"N","V"}, new List<string>{"a","b"}, new List<string>{":x",":y"}, 1);
